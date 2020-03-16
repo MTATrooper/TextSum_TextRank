@@ -4,6 +4,7 @@ from nltk.tokenize import sent_tokenize
 from preprocessing import get_vec_from_doc
 from buildTextRank import init_graph, set_edge_weight, textrank_weight
 from graph import Graph
+from rouge import Rouge
 
 if __name__ == "__main__":
     path = str(sys.argv[1])
@@ -27,3 +28,6 @@ if __name__ == "__main__":
     for i in index:
         results += sentences[i] + ' '
     print (results)
+    rouge = Rouge()
+    evalua = rouge.get_scores(results, text)
+    print(evalua)
