@@ -3,9 +3,6 @@ from nltk.cluster.util import cosine_distance
 
 THRESHOLD = 0.0001
 
-def similar_sent(s1, s2):               #Tính độ tương tự giữa 2 câu theo khoảng cách cosine
-    return 1 - cosine_distance(s1, s2)
-
 def init_graph(list_Sentences_Index):   #Xây dựng đồ thị với mỗi node là chỉ số của các câu ban đầu
     g = Graph()
     for item in list_Sentences_Index:
@@ -16,6 +13,9 @@ def init_graph(list_Sentences_Index):   #Xây dựng đồ thị với mỗi nod
                 g.add_node(item)
     return g
 
+def similar_sent(s1, s2):               #Tính độ tương tự giữa 2 câu theo khoảng cách cosine
+    return 1 - cosine_distance(s1, s2)
+
 def set_edge_weight(graph, list_Sentences_Vecto): #Tạo cách cạnh của đồ thị dựa trên sự tương đồng các câu
     for i in graph.nodes():
         for j in graph.nodes():
@@ -25,7 +25,7 @@ def set_edge_weight(graph, list_Sentences_Vecto): #Tạo cách cạnh của đ�
                 graph.add_edge(edge, weight)
     
 def textrank_weight(graph, d = 0.85):   #xây dựng rank cho các node
-    scores = dict.fromkeys(graph.nodes(), 1 / len(graph.nodes()))
+    scores = dict.fromkeys(graph.nodes(), 1)
     while True:
         count = 0
         for i in graph.nodes():
