@@ -14,18 +14,15 @@ def syllablize(text):
         tách thành các âm
         """
         text = ud.normalize('NFC', text)
-        sign = [r"==>", r"->", r"\.\.\.", r">>"]
         digits = r"\d+([\.,_]\d+)+"
-        #email = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
-        #web = r"^(http[s]?:\/\/)?(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+$"
-        email = r"\S+@\S+"
+        email = r"[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+"
+        #email = r"\S+@\S+"
         web = r'((www\.[^\s]+)|(https?://[^\s]+))'
         datetime = [
             r"\d{1,2}\/\d{1,2}(\/\d+)?",
             r"\d{1,2}-\d{1,2}(-\d+)?",
         ]
         word = r"\w+"
-        #non_word = r"[^\w\s]"
         abbreviations = [
             r"[A-ZĐ]+\.",
             r"Tp\.",
@@ -34,7 +31,6 @@ def syllablize(text):
         ]
         patterns = []
         patterns.extend(abbreviations)
-        patterns.extend(sign)
         patterns.extend([web, email])
         patterns.extend(datetime)
         patterns.extend([digits, word])
