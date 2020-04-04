@@ -7,8 +7,9 @@ from graph import Graph
 from rouge import Rouge
 
 if __name__ == "__main__":
-    path = str(sys.argv[1])
-    text = LoadDataFrom(path)
+    source_path = str(sys.argv[1])
+    reference_path = str(sys.argv[2])
+    text = LoadDataFrom(source_path)
     sentences = sent_tokenize(text)
     lstVec = get_vec_from_doc(text)
     graph = init_graph([i for i in range(len(lstVec))])
@@ -28,6 +29,19 @@ if __name__ == "__main__":
     for i in index:
         results += sentences[i] + ' '
     print (results)
+    reference = LoadDataFrom(reference_path)
     rouge = Rouge()
-    evalua = rouge.get_scores(results, text)
-    print(evalua)
+    evalua = rouge.get_scores(results, reference, avg=True)
+    #print(evalua)
+    print("============")
+    print("ROUGE-1-R: %s" % evalua['rouge-1']['r'])
+    print("ROUGE-1-P: %s" % evalua['rouge-1']['p'])
+    print("ROUGE-1-F: %s" % evalua['rouge-1']['f'])
+    print("============")
+    print("ROUGE-2-R: %s" % evalua['rouge-2']['r'])
+    print("ROUGE-2-P: %s" % evalua['rouge-2']['p'])
+    print("ROUGE-2-F: %s" % evalua['rouge-2']['f'])
+    print("============")
+    print("ROUGE-L-R: %s" % evalua['rouge-l']['r'])
+    print("ROUGE-L-P: %s" % evalua['rouge-l']['p'])
+    print("ROUGE-L-F: %s" % evalua['rouge-l']['f'])
