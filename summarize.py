@@ -1,15 +1,14 @@
 import sys
 from LoadDataFromFile import LoadDataFrom
 from nltk.tokenize import sent_tokenize
-from preprocessing import get_vec_from_doc, computeTFIDF
+from preprocessing import get_vec_from_doc, computeTFIDF,computeVec
 from buildTextRank import init_graph, set_edge_weight, textrank_weight
 from graph import Graph
 from rouge import Rouge
 
 def summary(text):
     sentences = sent_tokenize(text)
-    lstVec = get_vec_from_doc(text)
-    lstVec = computeTFIDF(lstVec)
+    lstVec = computeVec(text)
     graph = init_graph([i for i in range(len(lstVec))])
     set_edge_weight(graph, lstVec)
     graph.validate_graph()
@@ -32,8 +31,9 @@ if __name__ == "__main__":
     reference_path = str(sys.argv[2])
     text = LoadDataFrom(source_path)
     sentences = sent_tokenize(text)
-    lstVec = get_vec_from_doc(text)
-    lstVec = computeTFIDF(lstVec)
+    # lstVec = get_vec_from_doc(text)
+    # lstVec = computeTFIDF(lstVec)
+    lstVec = computeVec(text)
     graph = init_graph([i for i in range(len(lstVec))])
     set_edge_weight(graph, lstVec)
     graph.validate_graph()

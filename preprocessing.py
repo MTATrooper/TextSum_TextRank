@@ -3,9 +3,29 @@ sys.path.append('./tokenization')
 sys.path.append('./remove_stopword')
 from LongMatching import PhraseTokenization
 from remove_stopword import RemoveStopWord
-from nltk.tokenize import sent_tokenize
+from nltk.tokenize import sent_tokenize, word_tokenize
 import numpy as np
 import math
+from gensim.models import KeyedVectors
+from vncorenlp import VnCoreNLP
+
+def computeVec(text):
+    annotator = VnCoreNLP("../VnCoreNLP/VnCoreNLP-1.1.1.jar", annotators="wseg", max_heap_size='-Xmx500m')
+    w2v = KeyedVectors.load_word2vec_format("../Word2vec_Model/wiki.vi.model.bin", binary=True)
+    vocab = w2v.vocab
+    sentences = sent_tokenize(text)
+    X = []
+    for sentence in sentences:
+        words = annotator.tokenize(sentence)
+        #print(words)
+        sentence_vec = np.zeros((400))
+        count = 0
+        for word in words[0]:
+            if word.lower() in vocab:
+                count += 1
+                sentence_vec+=w2v[word.lower()]
+        X.append(sentence_vec/count)
+    return X
 
 def create_dict_from_Doc(text):
     '''
