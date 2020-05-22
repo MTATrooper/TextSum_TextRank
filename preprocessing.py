@@ -17,12 +17,13 @@ def computeVec(text):
     X = []
     for sentence in sentences:
         words = annotator.tokenize(sentence)
-        #print(words)
+        print(words)
         sentence_vec = np.zeros((400))
         count = 0
         for word in words[0]:
             if word.lower() in vocab:
                 count += 1
+                print(word)
                 sentence_vec+=w2v[word.lower()]
         X.append(sentence_vec/count)
     return X
